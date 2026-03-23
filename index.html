@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>bowen@portfolio ~ $</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="terminal-window">
+  <div class="accent-bar"></div>
+  <div class="titlebar">
+    <div class="titlebar-title">bowen@portfolio — bash</div>
+    <div class="titlebar-controls">
+      <div class="titlebar-btn btn-minimize">&#x2500;</div>
+      <div class="titlebar-btn btn-maximize">&#x25CB;</div>
+      <div class="titlebar-btn btn-close">&#x2715;</div>
+    </div>
+  </div>
+  <div id="output"></div>
+  <div class="input-line hidden" id="input-line">
+    <span class="prompt-text"><span class="prompt-user">bowen</span><span class="prompt-at">@</span><span class="prompt-host">portfolio</span><span class="prompt-sep">:</span><span class="prompt-path">~</span><span class="prompt-dollar">$ </span></span>
+    <div class="input-wrap">
+      <input type="text" id="input-field" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      <span class="cursor" id="cursor"></span>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

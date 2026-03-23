@@ -1,0 +1,293 @@
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #1a1b26;
+  --green: #9ece6a;
+  --blue: #7aa2f7;
+  --amber: #e0af68;
+  --gray: #565f89;
+  --white: #d5daf0;
+  --red: #f7768e;
+  --border: #292e42;
+  --purple: #bb9af7;
+  --cyan: #7dcfff;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: var(--white);
+  overflow: hidden;
+}
+
+#terminal-window {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* Gradient accent bar */
+.accent-bar {
+  height: 3px;
+  background: linear-gradient(90deg, var(--cyan), var(--blue), var(--purple), var(--blue), var(--cyan));
+  background-size: 200% 100%;
+  animation: accent-shift 8s ease infinite;
+  flex-shrink: 0;
+}
+
+@keyframes accent-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Linux titlebar */
+.titlebar {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 8px 12px;
+  background: #16161e;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.titlebar-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--gray);
+  font-size: 12px;
+}
+
+.titlebar-controls {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.titlebar-btn {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: default;
+  font-size: 12px;
+  font-weight: 900;
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.titlebar-btn:hover {
+  filter: brightness(1.2);
+}
+
+.btn-minimize { background: #e0af68; }
+.btn-maximize { background: #9ece6a; padding-bottom: 1px; }
+.btn-close { background: #f7768e; }
+
+/* Terminal output area */
+#output {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+  text-shadow: 0 0 3px rgba(125, 207, 255, 0.12);
+}
+
+#output::-webkit-scrollbar { width: 6px; }
+#output::-webkit-scrollbar-track { background: transparent; }
+#output::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* Input line */
+.input-line {
+  display: flex;
+  padding: 4px 14px 14px;
+  flex-shrink: 0;
+  align-items: center;
+  cursor: text;
+}
+
+.prompt-text {
+  color: var(--blue);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.input-wrap {
+  position: relative;
+  flex: 1;
+  margin-left: 6px;
+}
+
+#input-field {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--white);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  caret-color: transparent;
+}
+
+/* Block cursor */
+.cursor {
+  display: inline-block;
+  position: absolute;
+  width: 0.6em;
+  height: 1.2em;
+  background: var(--cyan);
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Styled spans */
+.prompt-user { color: var(--green); font-weight: 700; }
+.prompt-at { color: var(--gray); }
+.prompt-host { color: var(--purple); font-weight: 700; }
+.prompt-sep { color: var(--gray); }
+.prompt-path { color: var(--blue); font-weight: 700; }
+.prompt-dollar { color: var(--white); }
+.prompt { color: var(--blue); }
+.cmd { color: var(--white); }
+.success { color: var(--green); }
+.error { color: var(--red); }
+.hint { color: var(--gray); }
+.amber { color: var(--amber); }
+.bold { font-weight: 700; }
+.blue { color: var(--blue); }
+.green { color: var(--green); }
+.cyan { color: var(--cyan); }
+.purple { color: var(--purple); }
+.red { color: var(--red); }
+.white { color: var(--white); }
+
+/* Neofetch layout */
+.neofetch {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.neofetch-ascii {
+  color: var(--cyan);
+  flex-shrink: 0;
+  line-height: 1.3;
+}
+.neofetch-info {
+  line-height: 1.7;
+  min-width: 260px;
+}
+.neofetch-info .label { color: var(--blue); font-weight: 700; }
+.neofetch-info .value { color: var(--white); }
+.neofetch-separator {
+  color: var(--border);
+  margin: 4px 0;
+}
+.color-blocks span {
+  display: inline-block;
+  width: 24px;
+  height: 12px;
+}
+
+/* Skills tags */
+.skill-tag {
+  display: inline-block;
+  padding: 1px 8px;
+  margin: 2px 4px 2px 0;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.tag-lang, .tag-hpc { background: #1a2535; color: var(--cyan); }
+.tag-ml { background: #27203a; color: var(--purple); }
+.tag-web { background: #1f2538; color: var(--blue); }
+.tag-tool { background: #24253a; color: var(--gray); }
+
+/* Git log */
+.git-hash { color: var(--amber); }
+.git-date { color: var(--gray); }
+.git-msg { color: var(--white); }
+.git-branch { color: var(--cyan); }
+
+/* Project cat */
+.project-title { color: var(--green); font-weight: 700; font-size: 15px; }
+.project-field { color: var(--purple); font-weight: 700; }
+
+/* Cowsay */
+.cow { color: var(--white); }
+
+/* Panic */
+.panic-bg {
+  color: var(--white);
+  background: var(--red);
+  padding: 0 4px;
+}
+
+/* Card grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 24px;
+}
+
+.card-grid .card {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Clickable command hints */
+.cmd-link {
+  cursor: pointer;
+  border-bottom: 1px dashed var(--border);
+  transition: border-color 0.15s;
+}
+
+.cmd-link:hover {
+  border-bottom-color: var(--cyan);
+}
+
+/* Clickable links in output */
+#output a.term-link {
+  color: var(--blue);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+
+#output a.term-link:hover {
+  border-bottom-color: var(--cyan);
+  color: var(--cyan);
+}
+
+/* Hide input during boot */
+.input-line.hidden { display: none; }
+
+/* Mobile */
+@media (max-width: 600px) {
+  html, body { font-size: 11px; }
+  .neofetch { flex-direction: column; gap: 12px; }
+  .neofetch-ascii { font-size: 9px; line-height: 1.15; }
+  .card-grid { grid-template-columns: 1fr; }
+}
