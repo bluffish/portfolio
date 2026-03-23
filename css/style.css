@@ -193,6 +193,9 @@ html, body {
   color: var(--cyan);
   flex-shrink: 0;
   line-height: 1.3;
+  white-space: pre;
+  overflow: hidden;
+  font-size: clamp(7px, 1.8vw, 14px);
 }
 .neofetch-info {
   line-height: 1.7;
@@ -230,7 +233,7 @@ html, body {
 .git-branch { color: var(--cyan); }
 
 /* Project cat */
-.project-title { color: var(--green); font-weight: 700; font-size: 15px; }
+.project-title { color: var(--green); font-weight: 700; font-size: 15px; overflow-wrap: break-word; }
 .project-field { color: var(--purple); font-weight: 700; }
 
 /* Cowsay */
@@ -257,6 +260,7 @@ html, body {
   line-height: 1.6;
   white-space: pre-wrap;
   word-break: break-word;
+  overflow: hidden;
 }
 
 /* Clickable command hints */
@@ -291,7 +295,11 @@ html, body {
   html, body { font-size: 11px; }
   #output { padding: 8px 10px; }
   .neofetch { flex-direction: column; gap: 12px; }
-  .neofetch-ascii { font-size: 9px; line-height: 1.15; }
+  .neofetch-ascii { line-height: 1.1; }
+  .neofetch-info { min-width: 0; }
   .card-grid { grid-template-columns: 1fr; }
+  .project-title { font-size: 12px; }
+  .project-field { font-size: 11px; }
   .input-line { padding: 4px 10px 10px; }
+  .titlebar { padding: 6px 8px; }
 }
