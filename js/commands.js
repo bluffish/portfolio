@@ -1,4 +1,4 @@
-import { PROJECTS, PROJECT_LIST, PAPERS, PAPER_LIST, EXPERIENCE, EXPERIENCE_LIST, VENUES, SKILLS, DIRS } from './data.js';
+import { VERSION, PROJECTS, PROJECT_LIST, PAPERS, PAPER_LIST, EXPERIENCE, EXPERIENCE_LIST, VENUES, SKILLS, DIRS } from './data.js';
 import { esc, print, println, sleep, clearOutput, getCwd, setCwd } from './terminal.js';
 
 // ── Shared helpers ────────────────────────────────────
@@ -95,13 +95,19 @@ export function cmdHelp() {
 }
 
 export function cmdIntro() {
-  const ascii = `
- \u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2557   \u2588\u2588\u2557
- \u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2557\u255a\u2588\u2588\u2557 \u2588\u2588\u2554\u255d
- \u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255d \u255a\u2588\u2588\u2588\u2588\u2554\u255d
- \u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2557  \u255a\u2588\u2588\u2554\u255d
- \u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255d   \u2588\u2588\u2551
- \u255a\u2550\u2550\u2550\u2550\u2550\u255d    \u255a\u2550\u255d`.slice(1);
+  const ascii = `<svg viewBox="0 0 14 6" width="100%" fill="currentColor" aria-label="BY" role="img">
+<rect x="0" y="0" width="6" height="1"/>
+<rect x="0" y="1" width="1" height="1"/><rect x="5" y="1" width="1" height="1"/>
+<rect x="0" y="2" width="6" height="1"/>
+<rect x="0" y="3" width="1" height="1"/><rect x="5" y="3" width="1" height="1"/>
+<rect x="0" y="4" width="6" height="1"/>
+<rect x="7" y="0" width="2" height="1"/><rect x="11" y="0" width="2" height="1"/>
+<rect x="8" y="1" width="2" height="1"/><rect x="10" y="1" width="2" height="1"/>
+<rect x="9" y="2" width="2" height="1"/>
+<rect x="9" y="3" width="2" height="1"/>
+<rect x="9" y="4" width="2" height="1"/>
+<rect x="9" y="5" width="2" height="1"/>
+</svg>`;
 
   const info = `<span class="bold cyan">bowen@portfolio</span>
 <span class="neofetch-separator">\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500</span>
@@ -116,7 +122,7 @@ export function cmdIntro() {
 
 <span class="color-blocks"><span style="background:#f7768e">&nbsp;&nbsp;</span><span style="background:#9ece6a">&nbsp;&nbsp;</span><span style="background:#e0af68">&nbsp;&nbsp;</span><span style="background:#7aa2f7">&nbsp;&nbsp;</span><span style="background:#bb9af7">&nbsp;&nbsp;</span><span style="background:#c0caf5">&nbsp;&nbsp;</span><span style="background:#565f89">&nbsp;&nbsp;</span><span style="background:#1a1b26;border:1px solid #292e42">&nbsp;&nbsp;</span></span>`;
 
-  println('<div class="neofetch"><pre class="neofetch-ascii">' + ascii + '</pre><div class="neofetch-info">' + info + '</div></div>');
+  println('<div class="neofetch"><div class="neofetch-ascii">' + ascii + '</div><div class="neofetch-info">' + info + '</div></div>');
 }
 
 // ── projects & papers ─────────────────────────────────
@@ -364,19 +370,8 @@ function showExperience(name) {
 
 function cmdCatBashrc() {
   const lines = [
-    '<span class="hint"># ~/.bashrc \u2014 sourced on every login since \'24</span>',
+    '<span class="purple">export</span> <span class="cmd">VERSION</span>=<span class="amber">"' + VERSION + '"</span>',
     '',
-    '<span class="purple">alias</span> <span class="cmd">projects=</span><span class="amber">\'ls projects/\'</span>',
-    '<span class="purple">alias</span> <span class="cmd">me=</span><span class="amber">\'about\'</span>',
-    '<span class="purple">alias</span> <span class="cmd">hire-me=</span><span class="amber">\'contact\'</span>',
-    '<span class="purple">alias</span> <span class="cmd">gpu=</span><span class="amber">\'srun --gres=gpu:a100:4 --pty bash\'</span>',
-    '<span class="purple">alias</span> <span class="cmd">oops=</span><span class="amber">\'git reset --soft HEAD~1\'</span>',
-    '',
-    '<span class="purple">export</span> <span class="cmd">EDITOR</span>=<span class="amber">"nvim"</span>',
-    '<span class="purple">export</span> <span class="cmd">PATH</span>=<span class="amber">"$PATH:~/ambition:~/caffeine"</span>',
-    '<span class="purple">export</span> <span class="cmd">CUDA_VISIBLE_DEVICES</span>=<span class="amber">"all-of-them-please"</span>',
-    '',
-    '<span class="hint"># if the research compiles, don\'t touch it</span>',
     '<span class="purple">alias</span> <span class="cmd">yolo=</span><span class="amber">\'git add -A && git commit -m "it works trust me" && git push\'</span>',
   ];
   for (const l of lines) println(l);
@@ -384,20 +379,15 @@ function cmdCatBashrc() {
 
 function cmdCatVimrc() {
   const lines = [
-    '<span class="amber">" ~/.vimrc</span>',
-    '<span class="amber">" can\'t exit this terminal either</span>',
+    '<span class="purple">set</span> <span class="cmd">number</span>',
+    '<span class="purple">set</span> <span class="cmd">relativenumber</span>',
+    '<span class="purple">set</span> <span class="cmd">scrolloff=999</span>',
+    '<span class="purple">set</span> <span class="cmd">ignorecase smartcase</span>',
+    '<span class="purple">set</span> <span class="cmd">undofile</span>',
+    '<span class="purple">set</span> <span class="cmd">noswapfile</span>',
     '',
-    '<span class="purple">set</span> <span class="cmd">number</span>                  <span class="amber">" count your blessings</span>',
-    '<span class="purple">set</span> <span class="cmd">relativenumber</span>          <span class="amber">" everything is relative (physics major)</span>',
-    '<span class="purple">set</span> <span class="cmd">scrolloff=999</span>            <span class="amber">" always keep goals in sight</span>',
-    '<span class="purple">set</span> <span class="cmd">ignorecase smartcase</span>     <span class="amber">" be flexible but not naive</span>',
-    '<span class="purple">set</span> <span class="cmd">undofile</span>                 <span class="amber">" mistakes are recoverable</span>',
-    '<span class="purple">set</span> <span class="cmd">noswapfile</span>               <span class="amber">" live dangerously</span>',
-    '',
-    '<span class="amber">" save progress on career</span>',
     '<span class="purple">nnoremap</span> <span class="cmd">&lt;leader&gt;w</span> <span class="blue">:w&lt;CR&gt;</span>',
     '',
-    '<span class="amber">" when in doubt, exit gracefully</span>',
     '<span class="purple">nnoremap</span> <span class="cmd">&lt;leader&gt;q</span> <span class="blue">:echo "there is no escape"&lt;CR&gt;</span>',
   ];
   for (const l of lines) println(l);
