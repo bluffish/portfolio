@@ -28,7 +28,7 @@ export const EXPERIENCE = {
     location: 'Spring, TX',
     date: 'Jun. 2025 \u2013 Aug. 2025',
     desc: 'Designed a high-throughput virtualized Hardware Security Module (HSM) in C++, achieving 10-20x latency reduction over industry competitors. Optimized communication between the BMC-resident HSM and host CPU for cloud-scale deployments.',
-    tech: ['C++']
+    tech: ['C++', 'Python']
   },
   'huqt': {
     title: 'Software Engineer, Trading Systems',
@@ -36,7 +36,7 @@ export const EXPERIENCE = {
     location: 'Cambridge, MA',
     date: 'Sep. 2025 \u2013 Present',
     desc: 'Developing Oracle, Harvard\'s flagship trading platform for HUTC, supporting 100+ concurrent traders. Building high-performance, lock-free Limit Order Books in Rust.',
-    tech: ['Rust', 'React']
+    tech: ['Rust', 'React', 'Python']
   },
   'rsi': {
     title: 'Research Science Institute (RSI) Scholar',
@@ -44,7 +44,7 @@ export const EXPERIENCE = {
     location: 'Cambridge, MA',
     date: 'Jun. 2024 \u2013 Aug. 2024',
     desc: 'Conducted research on vision transformers for fluid dynamics closure modeling under Prof. Pierre Lermusiaux. Enhanced model robustness through a novel data-processing scheme and designed deep ensembling for closure models.',
-    tech: ['Python', 'PyTorch']
+    tech: ['Python', 'PyTorch', 'MatLab']
   },
   'cfa': {
     title: 'Exoplanet Researcher',
@@ -52,7 +52,7 @@ export const EXPERIENCE = {
     location: 'Cambridge, MA',
     date: 'Jan. 2026 \u2013 Present',
     desc: 'Developing a Monte Carlo simulation framework to model Earth-Sun-Moon orbital dynamics, executing 10k+ iterations across varying initial conditions to quantify exomoon transit probabilities.',
-    tech: ['Python', 'NumPy', 'MatLab']
+    tech: ['Python', 'NumPy', 'MatLab', 'CUDA', 'C++']
   },
   'utd': {
     title: 'AI Safety Researcher',

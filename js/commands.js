@@ -161,9 +161,6 @@ export function cmdExperience() {
       '<span class="project-field">\u2502 Org:</span>     <span class="cmd">' + esc(e.org) + '</span>',
       '<span class="project-field">\u2502 Date:</span>    <span class="cmd">' + esc(e.date) + '</span>',
       '<span class="hint">\u2502          ' + esc(e.location) + '</span>',
-      '<span class="project-field">\u2502</span>',
-      wrapText(e.desc),
-      '<span class="project-field">\u2502</span>',
       '<span class="project-field">\u2502 Tech:</span>    <span class="cmd">' + techTags(e.tech) + '</span>',
       cardBottom()
     ];
