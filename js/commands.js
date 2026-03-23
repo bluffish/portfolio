@@ -1,4 +1,4 @@
-import { VERSION, PROJECTS, PROJECT_LIST, PAPERS, PAPER_LIST, EXPERIENCE, EXPERIENCE_LIST, VENUES, SKILLS, DIRS } from './data.js';
+import { PROJECTS, PROJECT_LIST, PAPERS, PAPER_LIST, EXPERIENCE, EXPERIENCE_LIST, VENUES, SKILLS, DIRS } from './data.js';
 import { esc, print, println, sleep, clearOutput, getCwd, setCwd } from './terminal.js';
 
 // ── Shared helpers ────────────────────────────────────
@@ -370,8 +370,19 @@ function showExperience(name) {
 
 function cmdCatBashrc() {
   const lines = [
-    '<span class="purple">export</span> <span class="cmd">VERSION</span>=<span class="amber">"' + VERSION + '"</span>',
+    '<span class="hint"># ~/.bashrc \u2014 sourced on every login since \'24</span>',
     '',
+    '<span class="purple">alias</span> <span class="cmd">projects=</span><span class="amber">\'ls projects/\'</span>',
+    '<span class="purple">alias</span> <span class="cmd">me=</span><span class="amber">\'about\'</span>',
+    '<span class="purple">alias</span> <span class="cmd">hire-me=</span><span class="amber">\'contact\'</span>',
+    '<span class="purple">alias</span> <span class="cmd">gpu=</span><span class="amber">\'srun --gres=gpu:a100:4 --pty bash\'</span>',
+    '<span class="purple">alias</span> <span class="cmd">oops=</span><span class="amber">\'git reset --soft HEAD~1\'</span>',
+    '',
+    '<span class="purple">export</span> <span class="cmd">EDITOR</span>=<span class="amber">"nvim"</span>',
+    '<span class="purple">export</span> <span class="cmd">PATH</span>=<span class="amber">"$PATH:~/ambition:~/caffeine"</span>',
+    '<span class="purple">export</span> <span class="cmd">CUDA_VISIBLE_DEVICES</span>=<span class="amber">"all-of-them-please"</span>',
+    '',
+    '<span class="hint"># if the research compiles, don\'t touch it</span>',
     '<span class="purple">alias</span> <span class="cmd">yolo=</span><span class="amber">\'git add -A && git commit -m "it works trust me" && git push\'</span>',
   ];
   for (const l of lines) println(l);
@@ -379,15 +390,20 @@ function cmdCatBashrc() {
 
 function cmdCatVimrc() {
   const lines = [
-    '<span class="purple">set</span> <span class="cmd">number</span>',
-    '<span class="purple">set</span> <span class="cmd">relativenumber</span>',
-    '<span class="purple">set</span> <span class="cmd">scrolloff=999</span>',
-    '<span class="purple">set</span> <span class="cmd">ignorecase smartcase</span>',
-    '<span class="purple">set</span> <span class="cmd">undofile</span>',
-    '<span class="purple">set</span> <span class="cmd">noswapfile</span>',
+    '<span class="amber">" ~/.vimrc</span>',
+    '<span class="amber">" can\'t exit this terminal either</span>',
     '',
+    '<span class="purple">set</span> <span class="cmd">number</span>                  <span class="amber">" count your blessings</span>',
+    '<span class="purple">set</span> <span class="cmd">relativenumber</span>          <span class="amber">" everything is relative (physics major)</span>',
+    '<span class="purple">set</span> <span class="cmd">scrolloff=999</span>            <span class="amber">" always keep goals in sight</span>',
+    '<span class="purple">set</span> <span class="cmd">ignorecase smartcase</span>     <span class="amber">" be flexible but not naive</span>',
+    '<span class="purple">set</span> <span class="cmd">undofile</span>                 <span class="amber">" mistakes are recoverable</span>',
+    '<span class="purple">set</span> <span class="cmd">noswapfile</span>               <span class="amber">" live dangerously</span>',
+    '',
+    '<span class="amber">" save progress on career</span>',
     '<span class="purple">nnoremap</span> <span class="cmd">&lt;leader&gt;w</span> <span class="blue">:w&lt;CR&gt;</span>',
     '',
+    '<span class="amber">" when in doubt, exit gracefully</span>',
     '<span class="purple">nnoremap</span> <span class="cmd">&lt;leader&gt;q</span> <span class="blue">:echo "there is no escape"&lt;CR&gt;</span>',
   ];
   for (const l of lines) println(l);
