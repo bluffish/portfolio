@@ -94,7 +94,7 @@ export function cmdHelp() {
   println('<span class="hint">Pro tip: use \u2191/\u2193 for history, Tab for autocomplete</span>');
 }
 
-export function cmdIntro() {
+const ASCII_HTML = (() => {
   const ascii = `
  \u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2557   \u2588\u2588\u2557
  \u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2557\u255a\u2588\u2588\u2557 \u2588\u2588\u2554\u255d
@@ -102,13 +102,14 @@ export function cmdIntro() {
  \u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2557  \u255a\u2588\u2588\u2554\u255d
  \u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255d   \u2588\u2588\u2551
  \u255a\u2550\u2550\u2550\u2550\u2550\u255d    \u255a\u2550\u255d`.slice(1);
-
-  const asciiHtml = ascii.split('\n').map(line =>
+  return ascii.split('\n').map(line =>
     '<div class="ascii-line">' +
-    [...line].map(ch => `<span class="mch">${ch === ' ' ? '&nbsp;' : ch}</span>`).join('') +
+    [...line].map(ch => '<span class="mch">' + (ch === ' ' ? '&nbsp;' : esc(ch)) + '</span>').join('') +
     '</div>'
   ).join('');
+})();
 
+export function cmdIntro() {
   const info = `<span class="bold cyan">bowen@portfolio</span>
 <span class="neofetch-separator">\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500</span>
 <span class="label">Name:</span>      <span class="value">Bowen Yang</span>
@@ -122,7 +123,7 @@ export function cmdIntro() {
 
 <span class="color-blocks"><span style="background:#f7768e">&nbsp;&nbsp;</span><span style="background:#9ece6a">&nbsp;&nbsp;</span><span style="background:#e0af68">&nbsp;&nbsp;</span><span style="background:#7aa2f7">&nbsp;&nbsp;</span><span style="background:#bb9af7">&nbsp;&nbsp;</span><span style="background:#c0caf5">&nbsp;&nbsp;</span><span style="background:#565f89">&nbsp;&nbsp;</span><span style="background:#1a1b26;border:1px solid #292e42">&nbsp;&nbsp;</span></span>`;
 
-  println('<div class="neofetch"><div class="neofetch-ascii">' + asciiHtml + '</div><div class="neofetch-info">' + info + '</div></div>');
+  println('<div class="neofetch"><div class="neofetch-ascii">' + ASCII_HTML + '</div><div class="neofetch-info">' + info + '</div></div>');
 }
 
 // ── projects & papers ─────────────────────────────────
@@ -209,51 +210,57 @@ export function cmdTree() {
 
 // ── cd ────────────────────────────────────────────────
 
+function resolvePath(input) {
+  if (!input) return { dir: getCwd(), file: null };
+  let path = input;
+  let parts;
+  if (path.startsWith('~')) {
+    parts = [];
+    path = path.slice(1).replace(/^\//, '');
+  } else {
+    const cwd = getCwd();
+    parts = cwd === '~' ? [] : [cwd];
+  }
+  if (path) {
+    for (const seg of path.split('/')) {
+      if (seg === '' || seg === '.') continue;
+      if (seg === '..') { parts.pop(); continue; }
+      parts.push(seg);
+    }
+  }
+  if (parts.length === 0) return { dir: '~', file: null };
+  if (parts.length === 1 && DIRS.includes(parts[0])) return { dir: parts[0], file: null };
+  if (parts.length === 1) return { dir: '~', file: parts[0] };
+  if (parts.length === 2 && DIRS.includes(parts[0])) return { dir: parts[0], file: parts[1] };
+  return null;
+}
+
 export function cmdCd(args) {
-  if (!args || args === '~') {
-    setCwd('~');
+  const resolved = resolvePath(args || '~');
+  if (!resolved || resolved.file) {
+    println('<span class="error">bash: cd: ' + esc(args) + ': Not a directory</span>');
     return;
   }
-
-  const target = args.replace(/\/$/, '');
-
-  if (target === '..' || target === '~') {
-    setCwd('~');
-    return;
-  }
-
-  if (DIRS.includes(target)) {
-    setCwd(target);
-    return;
-  }
-
-  println('<span class="error">bash: cd: ' + esc(args) + ': No such file or directory</span>');
+  setCwd(resolved.dir);
 }
 
 // ── ls ────────────────────────────────────────────────
 
 export function cmdLs(args) {
-  const dir = getCwd();
-
-  if (!args) {
-    if (dir === '~') {
-      println('<span class="blue bold">projects/</span>   <span class="blue bold">papers/</span>   <span class="blue bold">experience/</span>   <span class="cmd">.bashrc</span>   <span class="cmd">.vimrc</span>   <span class="cmd">README.md</span>');
-    } else if (dir === 'projects') {
-      listProjects();
-    } else if (dir === 'papers') {
-      listPapers();
-    } else if (dir === 'experience') {
-      listExperience();
-    }
+  const resolved = resolvePath(args);
+  if (!resolved || resolved.file) {
+    println('<span class="error">ls: cannot access \'' + esc(args) + '\': No such file or directory</span>');
     return;
   }
-
-  const target = args.replace(/\/$/, '');
-  if (target === 'projects') { listProjects(); return; }
-  if (target === 'papers') { listPapers(); return; }
-  if (target === 'experience') { listExperience(); return; }
-
-  println('<span class="error">ls: cannot access \'' + esc(args) + '\': No such file or directory</span>');
+  if (resolved.dir === '~') {
+    println('<span class="blue bold">projects/</span>   <span class="blue bold">papers/</span>   <span class="blue bold">experience/</span>   <span class="cmd">.bashrc</span>   <span class="cmd">.vimrc</span>   <span class="cmd">README.md</span>');
+  } else if (resolved.dir === 'projects') {
+    listProjects();
+  } else if (resolved.dir === 'papers') {
+    listPapers();
+  } else if (resolved.dir === 'experience') {
+    listExperience();
+  }
 }
 
 function listProjects() {
@@ -281,31 +288,28 @@ function listExperience() {
 // ── cat ───────────────────────────────────────────────
 
 export function cmdCat(args) {
-  if (args === '.bashrc') { cmdCatBashrc(); return; }
-  if (args === '.vimrc') { cmdCatVimrc(); return; }
-  if (args === 'README.md') { cmdCatReadme(); return; }
-
-  const dir = getCwd();
-
-  const projMatch = args.match(/^projects\/(.+)$/);
-  if (projMatch) { showProject(projMatch[1]); return; }
-
-  const paperMatch = args.match(/^papers\/(.+)$/);
-  if (paperMatch) { showPaper(paperMatch[1]); return; }
-
-  const expMatch = args.match(/^experience\/(.+)$/);
-  if (expMatch) { showExperience(expMatch[1]); return; }
-
-  if (dir === 'projects' && args) { showProject(args); return; }
-  if (dir === 'papers' && args) { showPaper(args); return; }
-  if (dir === 'experience' && args) { showExperience(args); return; }
-
   if (!args) {
     println('<span class="error">usage: cat &lt;file&gt;</span>');
     println('<span class="hint">try: cd projects && cat ' + PROJECT_LIST[0] + '</span>');
-  } else {
-    println('<span class="error">cat: ' + esc(args) + ': No such file or directory</span>');
+    return;
   }
+
+  const resolved = resolvePath(args);
+  if (!resolved || !resolved.file) {
+    println('<span class="error">cat: ' + esc(args) + ': No such file or directory</span>');
+    return;
+  }
+
+  if (resolved.dir === '~') {
+    if (resolved.file === '.bashrc') { cmdCatBashrc(); return; }
+    if (resolved.file === '.vimrc') { cmdCatVimrc(); return; }
+    if (resolved.file === 'README.md') { cmdCatReadme(); return; }
+  }
+  if (resolved.dir === 'projects') { showProject(resolved.file); return; }
+  if (resolved.dir === 'papers') { showPaper(resolved.file); return; }
+  if (resolved.dir === 'experience') { showExperience(resolved.file); return; }
+
+  println('<span class="error">cat: ' + esc(args) + ': No such file or directory</span>');
 }
 
 function showProject(name) {
