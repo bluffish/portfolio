@@ -1,3 +1,5 @@
+export const VERSION = 2;
+
 export const PROJECTS = {
   'carla-collector': {
     title: 'Carla Collector — Autonomous Driving Dataset Generator',
